@@ -22,6 +22,7 @@ class StudentWithGrades: public Student {
 		void requestGrades(); // an auxiliary method that will be requesting grades from the user and adding them to the grades array
 		void requestGrade(int courseYear, int semesterId, int gradeId); // an auxiliary method that will be requesting a specific grade from the user
 		// the request methods are needed because each grade needs validation
+		void printAverageGrades(); // prints the overall average grade and the last two semesters average grade
 };
 
 #endif
