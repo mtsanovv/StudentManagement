@@ -68,7 +68,7 @@ void StudentWithGradesCollection::deserializeStudentData(string studentData) {
 		dataIndex++;
     }
     
-    StudentWithGrades deserializedStudent(studentName, studentFacultyNumber, studentGroupId, studentCourseYear, studentGrades, studentGradesCount); // create a StudentWithGrades object with the deserialized data
+    StudentWithGrades *deserializedStudent = new StudentWithGrades(studentName, studentFacultyNumber, studentGroupId, studentCourseYear, studentGrades, studentGradesCount); // create a StudentWithGrades object with the deserialized data
 	studentsCollection.push_back(deserializedStudent);
 }
 

@@ -9,7 +9,7 @@
 class StudentWithGradesCollection {
 	private:
 		// the only field is a vector with StudentWithGrades objects
-		std::vector<StudentWithGrades> studentsCollection;
+		std::vector<StudentWithGrades*> studentsCollection;
 	public:
 		StudentWithGradesCollection(); // a constructor method that will initialize the studentsCollection
 		std::string serializeStudentsCollection(); // a method that will return a serialized studentsCollection
