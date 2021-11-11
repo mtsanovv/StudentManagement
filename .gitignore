@@ -37,3 +37,6 @@
 
 # Makefiles
 *.win
+
+# StudentManagement files
+*.mgmt

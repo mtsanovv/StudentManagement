@@ -12,6 +12,7 @@ class Student {
 		unsigned short courseYear;
 	public:
 		Student(); // declaration of the constructor
+		Student(std::string studentName, int studentFacultyNumber, unsigned short studentGroupId, unsigned short studentCourseYear); // constructor overloading - we need this constructor in order to be able to initialize Student after its data has been fetched from the file
 		// declaration of accessors of all class fields
 		std::string getName();
 		int getFacultyNumber();

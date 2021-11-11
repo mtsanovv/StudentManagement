@@ -12,6 +12,14 @@ Student::Student() {
 	initCourseYear();
 }
 
+Student::Student(string studentName, int studentFacultyNumber, unsigned short studentGroupId, unsigned short studentCourseYear) {
+	// constructor that sets the class fields with the data that has been deserialized from the StudentManagement persistent storage file
+	name = studentName;
+	facultyNumber = studentFacultyNumber;
+	groupId = studentGroupId;
+	courseYear = studentCourseYear;
+}
+
 string Student::getName() 
 {
 	// accessor implementation for the name field

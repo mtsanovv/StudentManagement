@@ -13,6 +13,7 @@ class StudentWithGrades: public Student {
 		int gradesCount;
 	public:
 		StudentWithGrades(); // declaration of the constructor
+		StudentWithGrades(std::string studentName, int studentFacultyNumber, unsigned short studentGroupId, unsigned short studentCourseYear, int *studentGrades, int studentGradesCount); // constructor overloading - we need this constructor in order to be able to initialize StudentWithGrades and respectively a Student after its data has been fetched from the file
 		~StudentWithGrades(); // declaration of destructor - the destructor is needed here to free the memory of the grades dynamic array
 		// accessors of the grades field and its length
 		int* getGrades();

@@ -12,6 +12,13 @@ StudentWithGrades::StudentWithGrades() {
 	initGrades();
 }
 
+StudentWithGrades::StudentWithGrades(string studentName, int studentFacultyNumber, unsigned short studentGroupId, unsigned short studentCourseYear, int *studentGrades, int studentGradesCount): Student(studentName, studentFacultyNumber, studentGroupId, studentCourseYear) {
+	// implementation of a constructor that receives the deserialized data for a student from the StudentManagement persistent storage file
+	// this constructor first calls the base class (Student) constructor and then here we just need to add the pointer to the grades array
+	grades = studentGrades;
+	gradesCount = studentGradesCount;
+}
+
 StudentWithGrades::~StudentWithGrades() {
 	// destructor implementation
 	// destructor is needed in StudentWithGrades to free the memory from the grades dynamic array
