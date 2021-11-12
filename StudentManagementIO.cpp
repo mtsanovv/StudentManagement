@@ -9,7 +9,7 @@ using namespace std;
 namespace StudentManagementIO {
 	// namespace contains only static methods for reading and writing to the file that is used as persistent storage
 	void writeToFile(string content) {
-		// implementation of a method that will be writing to the file the only argument that can be passed to it, content
+		// implementation of a method that writes to the file the only argument that can be passed to it, content
 		ofstream persistentStorage(Constants::STUDENT_MANAGEMENT_STORAGE_FILE.c_str()); // open the file for writing
 		if(!persistentStorage.is_open()) {
 			// if the file is not open, exit - something very messed up has happened

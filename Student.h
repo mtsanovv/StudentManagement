@@ -18,12 +18,13 @@ class Student {
 		int getFacultyNumber();
 		unsigned short getGroupId();
 		unsigned short getCourseYear();
-		// declaration of methods that will initialize all class fields with information from STDIN
+		// declaration of methods that initialize all class fields with information from STDIN
 		void initName();
 		void initFacultyNumber();
 		void initGroupId();
 		void initCourseYear();
-		void requestCourseYear(); // method that will read the actual STDIN input for course year, because course year requires validation
+		void requestCourseYear(); // method that reads the actual STDIN input for course year, because course year requires validation
+		void requestFacultyNumber(); // method that reads the actual STDIN input for faculty number, because faculty number requires validation
 };
 
 #endif

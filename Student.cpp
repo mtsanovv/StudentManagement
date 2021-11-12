@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Student.h" // include Student class header file with class declarations in order to implement them in this file
+#include "StudentWithGradesCollection.h"  // include the StudentWithGradesCollection in order to be able to verify if a Student with a given faculty number already exists
 
 using namespace std;
 
@@ -50,6 +51,19 @@ void Student::initName() {
 
 void Student::initFacultyNumber() {
 	// implementation for initialization of the facultyNumber field
+	// request first STDIN input for facultyNumber and then validate it
+	requestFacultyNumber();
+	
+	StudentWithGradesCollection allStudents;
+	while(allStudents.studentWithFacultyNumberExists(facultyNumber)) {
+		// a student with this faculty number exists, re-request from the user to enter the faculty number
+		cout << "The student with faculty number " << facultyNumber << " already exists." << endl;
+		requestFacultyNumber();
+	}
+}
+
+void Student::requestFacultyNumber() {
+	// this method is required because initFacultyNumber needs to validate the user's input
 	cout << "Enter student's faculty number: ";
 	// initialize the facultyNumber field's value with STDIN input
 	cin >> facultyNumber;

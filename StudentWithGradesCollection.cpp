@@ -68,7 +68,8 @@ void StudentWithGradesCollection::deserializeStudentData(string studentData) {
 		dataIndex++;
     }
     
-    StudentWithGrades *deserializedStudent = new StudentWithGrades(studentName, studentFacultyNumber, studentGroupId, studentCourseYear, studentGrades, studentGradesCount); // create a StudentWithGrades object with the deserialized data
+    StudentWithGrades *deserializedStudent = new StudentWithGrades(studentName, studentFacultyNumber, studentGroupId, studentCourseYear, studentGrades, studentGradesCount); // create a pointer to the StudentWithGrades object with the deserialized data
+    // we cannot have directly a variable holding a StudentWithGrades object because it contains a dynamic array and C++ cannot know the size of dynamic arrays, thus when having a vector of StudentWithGrades objects instead of pointers to StudentWithGrades objects, it will exit with 3221226356 because it has no clue on how much memory it needs to allocate for each object
 	studentsCollection.push_back(deserializedStudent);
 }
 
@@ -86,4 +87,55 @@ void StudentWithGradesCollection::deserializeStudentGrades(string grades, int *s
 	    grades.erase(0, pos + 1); // delete from the data from 0 to the first occurence of the delimiter + 1, which is the length of the delimiter since it's a simple char in this case
 		gradeIndex++;
 	}
+}
+
+string StudentWithGradesCollection::serializeStudentsCollection() {
+	stringstream serializedStudentCollectionStream; // create a stream that will hold all the serialized studentsCollection data
+	for(size_t i = 0; i < studentsCollection.size(); i++) { // iterate through the studentsCollection vector
+		serializedStudentCollectionStream << serializeStudentData(studentsCollection[i]); // push the data for each student to the stream
+	}
+	return serializedStudentCollectionStream.str(); // return the contents in the stream as a string
+}
+
+string StudentWithGradesCollection::serializeStudentData(StudentWithGrades *student) {
+	stringstream serializedStudentDataStream; // create a stream that will hold the serialized StudentWithGrades data
+	// push each field's value on a new line in the string
+	serializedStudentDataStream << student->getName() << '\n';
+	serializedStudentDataStream << student->getFacultyNumber() << '\n';
+	serializedStudentDataStream << student->getGroupId() << '\n';
+	serializedStudentDataStream << student->getCourseYear() << '\n';
+	
+	// grades need a special treatment
+	int *studentGrades = student->getGrades();
+	int studentGradesCount = student->getGradesCount();
+	
+	// iterate over each grade in the array, push it to the stream and after a comma after it
+	for(int i = 0; i < studentGradesCount; i++) {
+		serializedStudentDataStream << *(studentGrades + i) << ',';
+	}
+	
+	// finish off the serialized data with the delimiter
+	serializedStudentDataStream << Constants::STUDENT_MANAGEMENT_FILE_STUDENTS_DELIMITER;
+	
+	return serializedStudentDataStream.str(); // return the contents in the stream as a string
+}
+
+void StudentWithGradesCollection::persistStudentsCollection() {
+	StudentManagementIO::writeToFile(serializeStudentsCollection()); // gets the serialized students collection and writes it to the file, simple as that
+}
+
+bool StudentWithGradesCollection::studentWithFacultyNumberExists(int facultyNumber) {
+	// iterate through the studentsCollection vector
+	for(size_t i = 0; i < studentsCollection.size(); i++) {
+		if(studentsCollection[i]->getFacultyNumber() == facultyNumber) {
+			// we have a match - the given faculty number is found
+			return true;
+		}
+	}
+	return false;
+}
+
+void StudentWithGradesCollection::addNewStudentToCollection() {
+	StudentWithGrades *student = new StudentWithGrades(); // create a pointer to a new StudentWithGrades object
+	studentsCollection.push_back(student); // push the newly created student to the studentsCollection vector
 }
