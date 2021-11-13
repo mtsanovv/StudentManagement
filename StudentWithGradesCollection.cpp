@@ -109,7 +109,7 @@ string StudentWithGradesCollection::serializeStudentData(StudentWithGrades *stud
 	int *studentGrades = student->getGrades();
 	int studentGradesCount = student->getGradesCount();
 	
-	// iterate over each grade in the array, push it to the stream and after a comma after it
+	// iterate over each grade in the array, push it to the stream and add a comma after it
 	for(int i = 0; i < studentGradesCount; i++) {
 		serializedStudentDataStream << *(studentGrades + i) << ',';
 	}

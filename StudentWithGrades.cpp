@@ -77,24 +77,31 @@ void StudentWithGrades::requestGrade(int courseYear, int semesterId, int gradeId
 	cin >> *currentGradePointer;
 }
 
-void StudentWithGrades::printAverageGrades() {
+double StudentWithGrades::calculateOverallAverageGrade() {
+	// implementation for calculation of the overall average grade for the student
 	double overallAverageGrade = 0.0;
-	double lastSemestersAverageGrade = 0.0;
-	
 	// calculate the overall average grade by adding together all grades and then dividing that sum by all grades count
 	for(int i = 0; i < gradesCount; i++) {
 		overallAverageGrade += *(grades + i);
 	}
 	overallAverageGrade /= gradesCount;
-	
+	return overallAverageGrade;
+}
+
+double StudentWithGrades::calculateLastSemestersAverageGrade() {
+	// implementation for calculation of the last two semesters average grade;
+	double lastSemestersAverageGrade = 0.0;
 	// calculate the last semesters average grade by adding together all grades from those semesters and then dividing that sum by their count
 	int lastSemestersGradeCount = Constants::SEMESTERS_PER_YEAR * Constants::GRADES_PER_SEMESTER;
 	for(int i = 0; i < lastSemestersGradeCount; i++) {
 		lastSemestersAverageGrade += *(grades + gradesCount - 1 - i);
 	}
 	lastSemestersAverageGrade /= lastSemestersGradeCount;
-	
+	return lastSemestersAverageGrade;
+}
+
+void StudentWithGrades::printAverageGrades() {	
 	// set precision to 3 digits (one before and two after the decimal point) and print out the overall average grade and the last semesters average grade
-	cout << "Overall average grade: " << setprecision(3) << overallAverageGrade << endl;
-	cout << "Last " << Constants::SEMESTERS_PER_YEAR << " semesters average grade: " << setprecision(3) << lastSemestersAverageGrade << endl;
+	cout << "Overall average grade: " << setprecision(3) << calculateOverallAverageGrade() << endl;
+	cout << "Last " << Constants::SEMESTERS_PER_YEAR << " semesters average grade: " << setprecision(3) << calculateLastSemestersAverageGrade() << endl;
 }
