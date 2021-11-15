@@ -21,6 +21,9 @@ class StudentWithGradesCollection {
 		void deserializeStudentGrades(std::string grades, int *studentGrades); // a method that deserializes a student's grades
 		bool studentWithFacultyNumberExists(int facultyNumber); // a method that is used when creating a new student to check if a student with the same faculty number exists
 		void addNewStudentToCollection(); // a method that creates a new StudentWithGrades object and then pushes it to the studentsCollection vector
+		void printAverageGradesInGroup(int groupId); // a method that prints the average grades in a group with a given group ID
+		void printStudentsData(); // a method that prints the data for all StudentWithGrades in studentsCollection + their average grades
+		void printStudentData(int facultyNumber); // a method that prints the data for a StudentWithGrades with a given faculty number + their average grades
 };
 
 #endif

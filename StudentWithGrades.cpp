@@ -1,5 +1,5 @@
 #include <iostream>
-#include <bits/stdc++.h>
+#include <cmath>
 #include "StudentWithGrades.h"
 #include "Constants.h"
 
@@ -102,6 +102,26 @@ double StudentWithGrades::calculateLastSemestersAverageGrade() {
 
 void StudentWithGrades::printAverageGrades() {	
 	// set precision to 3 digits (one before and two after the decimal point) and print out the overall average grade and the last semesters average grade
-	cout << "Overall average grade: " << setprecision(3) << calculateOverallAverageGrade() << endl;
-	cout << "Last " << Constants::SEMESTERS_PER_YEAR << " semesters average grade: " << setprecision(3) << calculateLastSemestersAverageGrade() << endl;
+	double overallAverageGrade = calculateOverallAverageGrade();
+	double lastSemestersAverageGrade = calculateLastSemestersAverageGrade();
+	overallAverageGrade = ceil(overallAverageGrade * 100.0) / 100.0; // to round up the number to two decimal places
+	lastSemestersAverageGrade = ceil(lastSemestersAverageGrade * 100.0) / 100.0;
+	cout << "Overall average grade: " << overallAverageGrade << endl;
+	cout << "Last " << Constants::SEMESTERS_PER_YEAR << " semesters average grade: " << lastSemestersAverageGrade << endl;
+}
+
+ostream& operator << (ostream &stream, StudentWithGrades &studentWithGrades) {
+	// implementation for predefining the << operator so that the data stored in StudentWithGrades can be printed out
+	// first, print out the values of the fields in Student
+	stream << "Name: " << studentWithGrades.getName() << endl;
+	stream << "Faculty number: " << studentWithGrades.getFacultyNumber() << endl;
+	stream << "Group ID: " << studentWithGrades.getGroupId() << endl;
+	stream << "Course year: " << studentWithGrades.getCourseYear() << endl;
+	// next, iterate over the grades array and print each grade out
+	int *grades = studentWithGrades.getGrades();
+	stream << "Grades: ";
+	for(int i = 0; i < studentWithGrades.getGradesCount(); i++) {
+		stream << *(grades + i) << ' ';
+	}
+	stream << endl;
 }

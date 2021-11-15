@@ -26,6 +26,7 @@ class StudentWithGrades: public Student {
 		double calculateOverallAverageGrade(); // calculates the overall average grade
 		double calculateLastSemestersAverageGrade(); // calculates the last two semesters' average grade
 		void printAverageGrades(); // prints the overall average grade and the last two semesters average grade
+		friend std::ostream& operator << (std::ostream &stream, StudentWithGrades &studentWithGrades); // predefining << so that the data in a StudentWithGrades can be printed out using cout <<
 };
 
 #endif

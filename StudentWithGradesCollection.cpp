@@ -1,4 +1,6 @@
+#include <iostream>
 #include <sstream>
+#include <cmath>
 #include "StudentWithGradesCollection.h"
 #include "StudentManagementIO.h"
 #include "StudentWithGrades.h"
@@ -22,7 +24,8 @@ void StudentWithGradesCollection::deserializeStudentsCollection(string serialize
 	// time to iterate over the serialized data - first split it by Constants::STUDENT_MANAGEMENT_FILE_STUDENTS_DELIMITER
 	size_t pos = 0; // a variable that will hold the current position when iterating over the data
 	string token; // a variable that will hold the data for each iteration
-	while((pos = serializedStudentsCollection.find(Constants::STUDENT_MANAGEMENT_FILE_STUDENTS_DELIMITER)) != string::npos) { // iterating until the delimiter is no longer available
+	while(serializedStudentsCollection.find(Constants::STUDENT_MANAGEMENT_FILE_STUDENTS_DELIMITER) != string::npos) { // iterating until the delimiter is no longer available
+		pos = serializedStudentsCollection.find(Constants::STUDENT_MANAGEMENT_FILE_STUDENTS_DELIMITER); // assign pos to the current first occurence of the delimiter
 		// string::npos, per the documentation: "As a return value, it is usually used to indicate no matches."
 	    token = serializedStudentsCollection.substr(0, pos); // get the substring from 0 to the first occurence of the delimiter
 	    deserializeStudentData(token); // a method that deserializes the data for each student
@@ -78,7 +81,8 @@ void StudentWithGradesCollection::deserializeStudentGrades(string grades, int *s
 	size_t pos = 0; // a variable that will hold the current position when iterating over the data
 	string token; // a variable that will hold the data for each iteration
 	int gradeIndex = 0; // iterator in order to be able to access the studentGrades array
-	while((pos = grades.find(Constants::STUDENT_MANAGEMENT_GRADES_DELIMITER)) != string::npos) { // iterating until the delimiter is no longer available
+	while(grades.find(Constants::STUDENT_MANAGEMENT_GRADES_DELIMITER) != string::npos) { // iterating until the delimiter is no longer available
+		pos = grades.find(Constants::STUDENT_MANAGEMENT_GRADES_DELIMITER);
 		// string::npos, per the documentation: "As a return value, it is usually used to indicate no matches."
 	    token = grades.substr(0, pos); // get the substring from 0 to the first occurence of the delimiter
 	    stringstream strCaster; // a string stream that we'll use as a 'caster' - to type cast the string to a int
@@ -138,4 +142,73 @@ bool StudentWithGradesCollection::studentWithFacultyNumberExists(int facultyNumb
 void StudentWithGradesCollection::addNewStudentToCollection() {
 	StudentWithGrades *student = new StudentWithGrades(); // create a pointer to a new StudentWithGrades object
 	studentsCollection.push_back(student); // push the newly created student to the studentsCollection vector
+	persistStudentsCollection(); // when a new student is added, it has to be added to the persistence file as well
+}
+
+void StudentWithGradesCollection::printAverageGradesInGroup(int groupId) {
+	double groupOverallAverageGrade = 0.0; // a variable that holds the overall average grade for the group
+	double groupLastSemestersAverageGrade = 0.0; // a variable that holds the last 2 semesters average grade for the group
+	int totalStudentsInGroup = 0; // a counter that will be incremented when students from the requested group are found
+	for(size_t i = 0; i < studentsCollection.size(); i++) { // iterate over studentsCollection
+		if(studentsCollection[i]->getGroupId() == groupId) {
+			// we have found a student from the requested group
+			// add their average grades to the respective variables and increment the totalStudentsInGroup variable
+			groupOverallAverageGrade += studentsCollection[i]->calculateOverallAverageGrade();
+			groupLastSemestersAverageGrade += studentsCollection[i]->calculateLastSemestersAverageGrade();
+			totalStudentsInGroup++;
+		}
+	}
+	
+	if(totalStudentsInGroup == 0) {
+		// we have no students from this group, so we just can let the user know there are none
+		cout << "No students in group " << groupId << " found." << endl;
+		return;
+	}
+	
+	// to find the group averages, divide the sum of each type of average grades by the number of students in the group
+	groupOverallAverageGrade /= totalStudentsInGroup;
+	groupLastSemestersAverageGrade /= totalStudentsInGroup;
+	
+	// round to 2 decimal places each of the two doubles
+	groupOverallAverageGrade = ceil(groupOverallAverageGrade * 100.0) / 100.0;
+	groupLastSemestersAverageGrade = ceil(groupLastSemestersAverageGrade * 100.0) / 100.0;
+	
+	cout << "Overall average grade for group " << groupId << ": " << groupOverallAverageGrade << endl;
+	cout << "Last " << Constants::SEMESTERS_PER_YEAR << " semesters average grade for group " << groupId << ": " << groupLastSemestersAverageGrade << endl;
+}
+
+void StudentWithGradesCollection::printStudentsData() {
+	if(!studentsCollection.size()) {
+		// if there are no students, let the user know about that fact
+		cout << "There are no users currently available in StudentsManagement." << endl;
+		return; // no need to continue the method execution
+	}
+	
+	for(size_t i = 0; i < studentsCollection.size(); i++) { // iterate over studentsCollection
+		StudentWithGrades *student = studentsCollection[i];
+		// print out the data for each StudentWithGrades using the predefined << operator in StudentWithGrades
+		cout << *student << endl;
+		// print out also the average grades for each StudentWithGrades
+		student->printAverageGrades();
+		// print out the students delimiter for the persistence file for prettier output
+		cout << Constants::STUDENT_MANAGEMENT_FILE_STUDENTS_DELIMITER;
+	}
+}
+
+void StudentWithGradesCollection::printStudentData(int facultyNumber) {
+	for(size_t i = 0; i < studentsCollection.size(); i++) { // iterate over studentsCollection
+		if(studentsCollection[i]->getFacultyNumber() == facultyNumber) {
+			StudentWithGrades *student = studentsCollection[i];
+			// we have found a StudentWithGrades with the requested faculty number, print their data out
+			cout << *student;
+			// print out also the average grades for the StudentWithGrades
+			student->printAverageGrades();
+			// print out the students delimiter for the persistence file for prettier output
+			cout << Constants::STUDENT_MANAGEMENT_FILE_STUDENTS_DELIMITER;
+			return; // no need to iterate further or to continue the method execution
+		}
+	}
+	
+	// the for loop has iterated over all StudentWithGrades in studentsCollection and the method has not yet returned... this means the student with the specified faculty number has not been found
+	cout << "No student with faculty number " << facultyNumber << " found." << endl;
 }
