@@ -36,7 +36,7 @@ void StudentWithGradesCollection::deserializeStudentsCollection(string serialize
 void StudentWithGradesCollection::deserializeStudentData(string studentData) {
 	string studentName; // a variable that will hold the student name
 	int studentFacultyNumber; // a variable that will hold the student faculty number
-	unsigned short studentGroupId; // a variable that will hold the student group ID
+	unsigned short studentGroupId; // a variable that will hold the student's group
 	unsigned short studentCourseYear; // a variable that will hold the student course year
 	int *studentGrades; // a dynamic array of all student grades
 	// this array does not have to be deleted as it will be passed to the respective StudentWithGrades later (and when that StudentWithGrades is supposed to be destroyed, it will delete the array)

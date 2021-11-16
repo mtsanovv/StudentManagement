@@ -115,7 +115,7 @@ ostream& operator << (ostream &stream, StudentWithGrades &studentWithGrades) {
 	// first, print out the values of the fields in Student
 	stream << "Name: " << studentWithGrades.getName() << endl;
 	stream << "Faculty number: " << studentWithGrades.getFacultyNumber() << endl;
-	stream << "Group ID: " << studentWithGrades.getGroupId() << endl;
+	stream << "Group: " << studentWithGrades.getGroupId() << endl;
 	stream << "Course year: " << studentWithGrades.getCourseYear() << endl;
 	// next, iterate over the grades array and print each grade out
 	int *grades = studentWithGrades.getGrades();

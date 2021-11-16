@@ -46,6 +46,7 @@ void Student::initName() {
 	// implementation for initialization of the name field
 	cout << "Enter student's name: ";
 	// initialize the name field's value with STDIN input
+	cin.ignore(); // ignores \n in cin after cin >> something
 	getline(cin, name); // cin >> name would fail if there are whitespaces in the name, so use getline
 }
 
