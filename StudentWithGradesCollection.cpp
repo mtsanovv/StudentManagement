@@ -180,7 +180,7 @@ void StudentWithGradesCollection::printAverageGradesInGroup(int groupId) {
 void StudentWithGradesCollection::printStudentsData() {
 	if(!studentsCollection.size()) {
 		// if there are no students, let the user know about that fact
-		cout << "There are no users currently available in StudentsManagement." << endl;
+		cout << "There are no users currently available in StudentManagement." << endl;
 		return; // no need to continue the method execution
 	}
 	
