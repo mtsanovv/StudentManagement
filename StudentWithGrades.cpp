@@ -124,4 +124,6 @@ ostream& operator << (ostream &stream, StudentWithGrades &studentWithGrades) {
 		stream << *(grades + i) << ' ';
 	}
 	stream << endl;
+	
+	return stream;
 }
